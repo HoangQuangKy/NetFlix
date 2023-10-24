@@ -11,10 +11,6 @@ const userSchema = new mongoose.Schema({
     phonenumber: {
         type: Number
     },
-    age: {
-        type: Number,
-        required: true,
-    },
     dateOfBirth: {
         type: Date,
     },
@@ -29,7 +25,12 @@ const userSchema = new mongoose.Schema({
     auth: {
         type: String,
         default: 'customer'
-    }
+    },
+    isWatching: [{
+        type: mongoose.Schema.Types.ObjectId,
+        default: [],
+        ref: 'films'
+    }]
 }, {
     timestamps: true
 })
