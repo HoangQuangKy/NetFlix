@@ -9,6 +9,16 @@ const filmsSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    decs: {
+        type: String,
+        required: true
+    },
+    actors: [{
+        type: String
+    }],
+    acceptAge: {
+        type: Number
+    },
     category: [{
         type: String
     }],
