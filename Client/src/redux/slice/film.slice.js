@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     films: [],
-    randomFilm: null
+    randomFilm: null,
+    categories: []
 }
 
 export const filmSlice = createSlice({
@@ -12,9 +13,12 @@ export const filmSlice = createSlice({
         setFilms: (state, action) => {
             state.films = action.payload.films
             state.randomFilm = action.payload.randomFilm
+        },
+        setCategories: (state, action) => {
+            state.categories = action.payload.categories
         }
     },
 })
-export const { setFilms } = filmSlice.actions
+export const { setFilms, setCategories } = filmSlice.actions
 
 export default filmSlice.reducer
