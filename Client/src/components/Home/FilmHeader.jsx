@@ -1,12 +1,13 @@
 import React from 'react'
-import { getFilm } from '../../../services'
+// import { getFilm } from '../../../services'
+import {getFilm,getUniqueCategories} from '../../services';
 import play from '../../../public/play.png'
 import info from '../../../public/info.png'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCategories, setFilms } from '../../redux/slice/film.slice';
 import replay from '../../../public/replayVideo.png'
-import { getUniqueCategories } from '../../../services';
+// import { getUniqueCategories } from '../../../services';
 
 function FilmHeader() {
     const dispatch = useDispatch();
@@ -26,7 +27,7 @@ function FilmHeader() {
             .catch((error) => {
                 console.error('Lỗi khi gọi API:', error);
             });
-    }, [dispatch]);
+    }, []);
     useEffect(() => {
         getUniqueCategories()
             .then((response) => {
@@ -34,9 +35,9 @@ function FilmHeader() {
                 dispatch(setCategories({ categories: categoriesData }))
             })
             .catch((error) => {
-                console.log("Lỗi khi gọi API :", error);
+                console.log("Lỗi khi gọi API getUniqueCategories:", error);
             })
-    }, [dispatch])
+    }, [])
     console.log('cate', categories);
     console.log(randomFilm);
     return (

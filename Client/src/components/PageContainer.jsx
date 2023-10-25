@@ -7,10 +7,9 @@ import Home from './Home/Home'
 function PageContainer() {
     return (
         <BrowserRouter>
-
             <Routes>
-                <Route path='/login' element={<Login></Login>}></Route>
-                <Route path='/register' element={<Register></Register>}></Route>
+                {/* <Route path='/login' element={<Login></Login>}></Route>
+                <Route path='/register' element={<Register></Register>}></Route> */}
                 <Route path='/' element={<Home></Home>}></Route>
             </Routes>
 

@@ -44,7 +44,7 @@ function KDrama() {
         console.log('state', state);
     })
     const categories = useSelector((state) => state.films.categories)
-    const koreaFilms = films.filter(film => film.category.includes("Korea"))
+    const koreaFilms = films?.filter(film => film.category.includes("Korea"))
     console.log('check', films);
     console.log(koreaFilms);
     console.log('categories', categories);
