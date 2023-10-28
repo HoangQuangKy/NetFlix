@@ -9,9 +9,9 @@ import "slick-carousel/slick/slick-theme.css";
 function App() {
 
   return (
-    <div className="container">
-    <AppRouter />
-  </div>
+    <div className="container max-w-full">
+      <AppRouter />
+    </div>
   )
 }
 

@@ -9,7 +9,7 @@ export const createFilms = async (req, res) => {
         const category = req.body.category;
         const decs = req.body.decs;
         const actors = req.body.actors;
-        const acceptAge = req.bdy.acceptAge;
+        const acceptAge = req.body.acceptAge;
 
         const data = await films.create({
             filmName: filmName,
@@ -23,7 +23,7 @@ export const createFilms = async (req, res) => {
         })
         return res.status(200).json({
             message: 'Create new film success',
-            data
+            data: data
         })
     } catch (error) {
         console.log(error);

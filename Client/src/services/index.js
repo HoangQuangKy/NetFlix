@@ -14,3 +14,7 @@ export const getFilm = () => {
 export const getUniqueCategories = () => {
     return categoriesInstance.get("/film/category")
 }
+
+export const createNewUser = (newUser) => {
+    return filmInstance.post("/user/create", newUser);
+}

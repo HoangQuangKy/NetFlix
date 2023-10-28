@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../../public/logo.jpg'
+import { createNewUser } from '../services'
 
 function Register() {
+
+
     return (
         <div className="min-h-screen w-full flex flex-col items-center bg-[url('../../public/loginbg.jpg')]">
             <div className='w-full h-20 pl-12 pt-5'>
@@ -16,7 +19,6 @@ function Register() {
                     <input type="text" placeholder='Password' className=' w-[314px] h-[50px] px-5 rounded-t-md border-b-4 border-yellow-600 bg-gray-700 mb-5' />
                     <input type="text" placeholder='Full Name' className=' w-[314px] h-[50px] px-5 rounded-t-md border-b-4 border-yellow-600 bg-gray-700 mb-5' />
                     <input type="phone" placeholder='Phone Number' className=' w-[314px] h-[50px] px-5 rounded-t-md border-b-4 border-yellow-600 bg-gray-700 mb-5' />
-                    <input type="number" placeholder='Age' className=' w-[314px] h-[50px] px-5 rounded-t-md border-b-4 border-yellow-600 bg-gray-700 mb-5' />
                     <input type="date" placeholder='dateOfBirth' className=' w-[314px] h-[50px] px-5 rounded-t-md border-b-4 border-yellow-600 bg-gray-700 mb-5' />
                     <button className='w-[314px] h-[50px] bg-red-600 text-white rounded-md font-medium mb-4'>Sign Up</button>
                 </div>

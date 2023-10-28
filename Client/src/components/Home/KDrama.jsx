@@ -39,15 +39,9 @@ const settings = {
 };
 
 function KDrama() {
-    const films = useSelector((state) => {
-        state.films.films
-        console.log('state', state);
-    })
+    const films = useSelector((state) => state.films.films)
     const categories = useSelector((state) => state.films.categories)
     const koreaFilms = films?.filter(film => film.category.includes("Korea"))
-    console.log('check', films);
-    console.log(koreaFilms);
-    console.log('categories', categories);
     return (
         <div className='w-full flex flex-col'>
             <p className='my-5 text-3xl font-bold'>K-Dramas</p>

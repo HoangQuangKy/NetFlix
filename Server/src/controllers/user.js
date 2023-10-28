@@ -1,11 +1,12 @@
-import user from "../models/user.js"
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
+import user from '../models/user.js'
+const key = 'Bao_mat'
+
 export const createNewUser = async (req, res) => {
     try {
         const name = req.body.name;
         const address = req.body.address;
-        const age = req.body.age;
         const dateOfBirth = req.body.dateOfBirth;
         const username = req.body.username;
         const password = req.body.password;
@@ -25,7 +26,6 @@ export const createNewUser = async (req, res) => {
         const data = await user.create({
             name: name,
             address: address,
-            age: age,
             dateOfBirth: dateOfBirth,
             username: username,
             password: hashPassword,
@@ -43,3 +43,33 @@ export const createNewUser = async (req, res) => {
         })
     }
 }
+
+export const Login = async (req, res) => {
+    try {
+        const allUser = await user.findOne({ username: req.body.username });
+        if (!allUser) {
+            return res.status(404).json({
+                message: "Tên đăng nhập không đúng",
+                data: allUser
+            });
+        }
+        const passwordMatch = await bcrypt.compare(String(req.body.password), String(allUser.password));
+
+        if (passwordMatch) {
+            const token = jwt.sign({ userId: allUser._id }, key, { expiresIn: '1m' });
+            res.cookie('accessToken', token, { httpOnly: true }).status(200).json({
+                message: "Đăng nhập thành công",
+                data: token,
+            });
+        } if (!passwordMatch) {
+            return res.status(401).json({
+                message: "Mật khẩu không đúng"
+            });
+        }
+    } catch (error) {
+        return res.status(400).json({
+            message: error.message,
+            name: error.name,
+        });
+    }
+};

@@ -1,45 +1,14 @@
 import React from 'react'
-// import { getFilm } from '../../../services'
-import {getFilm,getUniqueCategories} from '../../services';
 import play from '../../../public/play.png'
 import info from '../../../public/info.png'
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setCategories, setFilms } from '../../redux/slice/film.slice';
 import replay from '../../../public/replayVideo.png'
-// import { getUniqueCategories } from '../../../services';
+import { useSelector } from 'react-redux'
 
 function FilmHeader() {
-    const dispatch = useDispatch();
     const films = useSelector((state) => state.films.films);
     const randomFilm = useSelector((state) => state.films.randomFilm);
-    const categories = useSelector((state) => state.films.categories)
-
-    useEffect(() => {
-        getFilm()
-            .then((response) => {
-                const filmsData = response.data.data
-                const randomIndex = Math.floor(Math.random() * filmsData.length);
-                const randomFilm = filmsData[randomIndex];
-
-                dispatch(setFilms({ films: filmsData, randomFilm: randomFilm }));
-            })
-            .catch((error) => {
-                console.error('Lỗi khi gọi API:', error);
-            });
-    }, []);
-    useEffect(() => {
-        getUniqueCategories()
-            .then((response) => {
-                const categoriesData = response.data.message
-                dispatch(setCategories({ categories: categoriesData }))
-            })
-            .catch((error) => {
-                console.log("Lỗi khi gọi API getUniqueCategories:", error);
-            })
-    }, [])
-    console.log('cate', categories);
     console.log(randomFilm);
+
     return (
         <div className='w-full'>
             {randomFilm && (
