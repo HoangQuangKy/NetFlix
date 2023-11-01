@@ -11,8 +11,8 @@ function Home() {
     const dispatch = useDispatch();
     const films = useSelector((state) => state.films.films);
     const randomFilm = useSelector((state) => state.films.randomFilm);
-    const categories = useSelector((state) => state.films.categories)
-
+    const categories = useSelector((state) => state.films.categories);
+    const accessToken = useSelector((state) => state.token.accessToken);
     useEffect(() => {
         getFilm()
             .then((response) => {
@@ -36,6 +36,7 @@ function Home() {
                 console.log("Lỗi khi gọi API getUniqueCategories:", error);
             })
     }, [])
+    console.log('token', accessToken);
     return (
         <div className='max-w-full flex flex-col'>
             <Header></Header>

@@ -16,5 +16,8 @@ export const getUniqueCategories = () => {
 }
 
 export const createNewUser = (newUser) => {
-    return filmInstance.post("/user/create", newUser);
+    return filmInstance.post("/user/register", newUser);
+}
+export const Login = (userLogin) => {
+    return filmInstance.post("/user/login", userLogin)
 }
