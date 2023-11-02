@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import user from '../models/user.js'
-const key = 'Bao_mat'
 
 export const createNewUser = async (req, res) => {
     try {
@@ -45,6 +44,7 @@ export const createNewUser = async (req, res) => {
 }
 
 export const Login = async (req, res) => {
+
     try {
         const allUser = await user.findOne({ username: req.body.username });
         if (!allUser) {
@@ -56,11 +56,11 @@ export const Login = async (req, res) => {
         const passwordMatch = await bcrypt.compare(String(req.body.password), String(allUser.password));
 
         if (passwordMatch) {
-            const token = jwt.sign({ userId: allUser._id }, key, { expiresIn: '1m' });
-            res.cookie('accessToken', token, { httpOnly: true }).status(200).json({
-                message: "Đăng nhập thành công",
-                data: token,
-            });
+            const token = jwt.sign({ userId: allUser._id }, process.env.KEY, { expiresIn: '1m' });
+
+            return res.status(200).json({
+                data: token
+            })
         } if (!passwordMatch) {
             return res.status(401).json({
                 message: "Mật khẩu không đúng"
@@ -74,3 +74,27 @@ export const Login = async (req, res) => {
         });
     }
 };
+
+export const authentications = async (req, res, next) => {
+    const bearerToken = req.headers.authorization
+    // if (!bearerToken) {
+    //     return res.status(401).json({
+    //         message: "Bạn chưa đăng nhập"
+    //     })
+    // }
+    // const token = bearerToken.split(" ")[1]
+    console.log(bearerToken);
+    try {
+        const checkToken = jwt.verify(token, process.env.KEY)
+        const userId = checkToken.id
+        const userLogged = await user.findById(userId)
+        if (!userLogged) {
+            return res.status(401).json({
+                message: "Bạn chưa đăng nhập"
+            })
+        }
+        next()
+    } catch (error) {
+        return res.status(401).json({ message: "Ban chua dang nhap" })
+    }
+}

@@ -8,8 +8,13 @@ export const tokenSlice = createSlice({
     name: 'token',
     initialState,
     reducers: {
-        setAccessToken: (state, action) => {
-            state.accessToken = action.payload.accessToken;
+        setAccessToken: (state, { payload }) => {
+            // state.accessToken = action.payload.accessToken;
+            const nextState = {
+                ...state,
+                ...payload
+            }
+            return nextState
         }
     }
 });

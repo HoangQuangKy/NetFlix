@@ -1,38 +1,30 @@
 import React from 'react'
-import { DownOutlined } from '@ant-design/icons';
-import { Dropdown, Space, Typography } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { Dropdown, Menu, Button } from 'antd';
 function NavBarHeader() {
-    const items = [
-        {
-            key: '1',
-            label: 'Manage Profile',
-        },
-        {
-            key: '2',
-            label: 'Account',
-        },
-        {
-            key: '3',
-            label: 'Logout',
-        },
-    ];
+    const navigate = useNavigate()
+    const handleClickLogout = () => {
+        localStorage.clear("accessToken")
+        navigate('/login')
+    }
+    const menu = (
+        <Menu>
+            <Menu.Item key="profile">Manage Profile</Menu.Item>
+            <Menu.Item key="account">Account</Menu.Item>
+            <Menu.Item key="logout">
+                <Button type="link" onClick={handleClickLogout}>
+                    Logout
+                </Button>
+            </Menu.Item>
+        </Menu>
+    );
     return (
-        <Dropdown
-            menu={{
-                items,
-                selectable: true,
-                defaultSelectedKeys: ['3'],
-            }}
-
-        >
-            <Typography.Link >
-                <Space className='text-white text-sm'>
-                    User
-                    <DownOutlined />
-                </Space>
-            </Typography.Link>
+        <Dropdown overlay={menu} trigger={['click']}>
+            <Button className='text-white'>
+                User
+            </Button>
         </Dropdown>
-    )
+    );
 }
 
 export default NavBarHeader

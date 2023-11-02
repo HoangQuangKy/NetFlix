@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getFilm, getUniqueCategories } from '../../services'
 import { setCategories, setFilms } from '../../redux/slice/film.slice'
 function Home() {
+
     const dispatch = useDispatch();
     const films = useSelector((state) => state.films.films);
     const randomFilm = useSelector((state) => state.films.randomFilm);
@@ -36,7 +37,7 @@ function Home() {
                 console.log("Lỗi khi gọi API getUniqueCategories:", error);
             })
     }, [])
-    console.log('token', accessToken);
+
     return (
         <div className='max-w-full flex flex-col'>
             <Header></Header>

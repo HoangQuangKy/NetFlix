@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux'
 function FilmHeader() {
     const films = useSelector((state) => state.films.films);
     const randomFilm = useSelector((state) => state.films.randomFilm);
-    console.log(randomFilm);
 
     return (
         <div className='w-full'>

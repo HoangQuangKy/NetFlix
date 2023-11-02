@@ -1,16 +1,20 @@
 import React, { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import logo from '../../public/logo.jpg'
 import { useDispatch, useSelector } from 'react-redux'
 import { Login as loginServer } from '../services';
 import { setAccessToken } from '../redux/slice/token.slice';
+import axios from 'axios';
 function Login() {
+
     const dispatch = useDispatch();
     const accessToken = useSelector((state) => state.token.accessToken)
     const [account, setAccount] = useState({
         username: '',
         password: ''
     });
+    const navigate = useNavigate();
+
 
     const [err, setErr] = useState('');
     const handleChangeInput = (event) => {
@@ -32,15 +36,17 @@ function Login() {
             if (response.status === 200) {
                 const tokenData = response.data.data
                 dispatch(setAccessToken({ accessToken: tokenData }))
-                // window.location.href = "/"
                 alert("Đăng nhập thành công")
+                // navigate('/')
+                localStorage.setItem("accessToken", accessToken)
+                axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("accessToken")}`
 
             }
         } catch (error) {
             setErr(error?.response?.data?.message)
         }
+
     }
-    console.log('accessToken:', accessToken);
     return (
         <div className="min-h-screen w-full flex flex-col items-center bg-[url('../../public/loginbg.jpg')]">
             <div className='w-full h-20 pl-12 pt-5'>
