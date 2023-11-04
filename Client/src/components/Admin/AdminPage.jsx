@@ -1,8 +1,6 @@
 import React from 'react'
-import { useEffect } from 'react'
-function Item() {
 
-
+function AdminPage() {
     return (
         <div>
 
@@ -10,4 +8,4 @@ function Item() {
     )
 }
 
-export default Item
+export default AdminPage

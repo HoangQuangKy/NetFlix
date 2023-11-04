@@ -1,7 +1,10 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Dropdown, Menu, Button } from 'antd';
+import { useSelector } from 'react-redux'
 function NavBarHeader() {
+    const username = useSelector((state) => state.token.username)
+
     const navigate = useNavigate()
     const handleClickLogout = () => {
         localStorage.clear("accessToken")
@@ -21,7 +24,7 @@ function NavBarHeader() {
     return (
         <Dropdown overlay={menu} trigger={['click']}>
             <Button className='text-white'>
-                User
+                {username}
             </Button>
         </Dropdown>
     );

@@ -1,11 +1,13 @@
 import axios from "axios";
-
+import { jwtDecode } from 'jwt-decode'
+const KEY = 'M4T_KH4U'
 const filmInstance = axios.create({
     baseURL: "http://localhost:8000",
 });
 const categoriesInstance = axios.create({
     baseURL: "http://localhost:8000"
 })
+
 
 export const getFilm = () => {
     return filmInstance.get("/film/getAllFilms")

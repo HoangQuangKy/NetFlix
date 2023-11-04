@@ -8,6 +8,7 @@ import axios from 'axios';
 function Login() {
 
     const dispatch = useDispatch();
+    const username = useSelector((state) => state.token.username)
     const accessToken = useSelector((state) => state.token.accessToken)
     const [account, setAccount] = useState({
         username: '',
@@ -35,11 +36,12 @@ function Login() {
             const response = await loginServer(userLogin)
             if (response.status === 200) {
                 const tokenData = response.data.data
-                dispatch(setAccessToken({ accessToken: tokenData }))
+                const userData = response.data.username
+                console.log(userData);
+                dispatch(setAccessToken({ accessToken: tokenData, username: userData }))
                 alert("Đăng nhập thành công")
-                // navigate('/')
+                navigate('/')
                 localStorage.setItem("accessToken", accessToken)
-                axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("accessToken")}`
 
             }
         } catch (error) {

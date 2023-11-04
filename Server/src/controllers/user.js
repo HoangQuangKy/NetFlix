@@ -59,7 +59,8 @@ export const Login = async (req, res) => {
             const token = jwt.sign({ userId: allUser._id }, process.env.KEY, { expiresIn: '1m' });
 
             return res.status(200).json({
-                data: token
+                data: token,
+                username: req.body.username
             })
         } if (!passwordMatch) {
             return res.status(401).json({
@@ -75,14 +76,14 @@ export const Login = async (req, res) => {
     }
 };
 
-export const authentications = async (req, res, next) => {
+export const authentication = async (req, res, next) => {
     const bearerToken = req.headers.authorization
-    // if (!bearerToken) {
-    //     return res.status(401).json({
-    //         message: "Bạn chưa đăng nhập"
-    //     })
-    // }
-    // const token = bearerToken.split(" ")[1]
+    if (!bearerToken) {
+        return res.status(401).json({
+            message: "Bạn chưa đăng nhập"
+        })
+    }
+    const token = bearerToken.split(" ")[1]
     console.log(bearerToken);
     try {
         const checkToken = jwt.verify(token, process.env.KEY)
@@ -93,8 +94,12 @@ export const authentications = async (req, res, next) => {
                 message: "Bạn chưa đăng nhập"
             })
         }
+        console.log(checkToken);
+        req.user = user
+        req.userId = userId
         next()
     } catch (error) {
         return res.status(401).json({ message: "Ban chua dang nhap" })
     }
 }
+

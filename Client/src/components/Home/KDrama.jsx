@@ -53,7 +53,7 @@ function KDrama() {
                             height={'250px'}
                             className=' object-fill max-h-[140px] rounded-md'
                         />
-                        <div>
+                        <div className=''>
                             <div className='flex flex-row justify-between items-center'>
                                 <div className='flex flex-row items-center px-1 py-2'>
                                     <img src={playaround} alt="" width={25} height={25} className='mx-1' />

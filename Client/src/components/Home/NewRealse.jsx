@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Carousel.css'
 import Slider from 'react-slick'
 import { useSelector } from 'react-redux'
@@ -9,6 +9,8 @@ import down from '../../../public/down.png'
 import dot from '../../../public/dot.png'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import trailer from '../../../public/trailer.mp4'
+import '../Home/video.css'
 
 
 const settings = {
@@ -40,19 +42,34 @@ const settings = {
 
 function KDramaCategory({ category, films }) {
     const categoryFilms = films.filter(film => film.category.includes(category));
-
+    const [isHover, setIsHover] = useState(null)
     return (
         <div className='w-full flex flex-col'>
-            <p className='my-5 text-3xl font-bold'>{category}</p>
+            <p className='my-5 text-3xl font-bold z-0 absolute'>{category}</p>
             <Slider {...settings}>
                 {categoryFilms.map((film, index) => (
-                    <button key={index} className='mx-1 h-[282px] w-[270px]'>
-                        <img src={film.img} alt=""
-                            width={'250px'}
-                            height={'250px'}
-                            className=' object-fill max-h-[140px] rounded-md'
-                        />
+                    <button key={index} className={`mx-1 h-[250px] w-[270px]  ${isHover === index ? 'z-20 h-[300px]' : ''}`}
+                        onMouseEnter={() => setIsHover(index)}
+                        onMouseLeave={() => setIsHover(null)}>
                         <div>
+                            <img src={film.img} alt=""
+                                width={'250px'}
+                                height={'250px'}
+                                className={`object-fill max-h-[140px] rounded-md block ${isHover === index ? 'hidden' : ''}`}
+
+                            />
+                            <video
+                                src={trailer}
+                                autoPlay
+                                height={'300px'}
+                                muted
+                                loop
+                                playsInline
+                                className={`max-h-[300px] w-[250px] object-fit absolute top-5 ${isHover === index ? '' : 'hidden'}`}
+                            ></video>
+                        </div>
+
+                        <div className={`${isHover === index ? '' : 'hidden'}`}>
                             <div className='flex flex-row justify-between items-center'>
                                 <div className='flex flex-row items-center px-1 py-2'>
                                     <img src={playaround} alt="" width={25} height={25} className='mx-1' />
