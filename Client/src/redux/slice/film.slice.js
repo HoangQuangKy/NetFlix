@@ -4,6 +4,8 @@ const initialState = {
   films: [],
   randomFilm: null,
   categories: [],
+  genres: [],
+  actors: []
 };
 
 export const filmSlice = createSlice({
@@ -17,8 +19,12 @@ export const filmSlice = createSlice({
     setCategories: (state, action) => {
       state.categories = action.payload.categories;
     },
+    setTitle: (state, action) => {
+      state.genres = action.payload.genres;
+      state.actors = action.payload.actors
+    }
   },
 });
-export const { setFilms, setCategories } = filmSlice.actions;
+export const { setFilms, setCategories, setTitle } = filmSlice.actions;
 
 export default filmSlice.reducer;

@@ -10,6 +10,8 @@ import { setCategories, setFilms } from '../../redux/slice/film.slice'
 function Home() {
 
     const dispatch = useDispatch();
+    const genres = useSelector((state) => state.films.genres);
+    const actors = useSelector((state) => state.films.actors);
     const films = useSelector((state) => state.films.films);
     const randomFilm = useSelector((state) => state.films.randomFilm);
     const categories = useSelector((state) => state.films.categories);

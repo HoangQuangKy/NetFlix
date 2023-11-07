@@ -49,6 +49,17 @@ export const getAllFilms = async (req, res) => {
         })
     }
 }
+export const getFilmById = async (req, res) => {
+    try {
+        const filmId = req.params.id;
+        const film = await films.findById(filmId)
+        return res.status(200).json({
+            film
+        })
+    } catch (error) {
+        return res.status(500).json(error)
+    }
+}
 
 export const updateFilms = async (req, res) => {
     try {
@@ -85,7 +96,48 @@ export const getUniqueCategories = async (req, res) => {
             message: uniqueCategories
         })
     } catch (error) {
-        console.error('Lỗi:', error);
-        return [];
+        return res.status(400).json({
+            message: error.message,
+        });
+    }
+}
+export const getTitle = async (req, res) => {
+    try {
+        const genres = await films.distinct('genres')
+        const category = await films.distinct('category')
+        const actors = await films.distinct('actors')
+        return res.status(200).json({
+            data: {
+                genres: genres,
+                category: category,
+                actors: actors
+            }
+        })
+    } catch (error) {
+        return res.status(400).json({
+            message: error.message,
+        });
+    }
+}
+export const getPagingFilms = async (req, res) => {
+    try {
+        const pageSize = req.query.pageSize || 3;
+        const pageIndex = req.query.pageIndex || 1;
+
+        const filmsAll = await films
+            .find()
+            .skip(pageSize * pageIndex - pageSize).limit(pageSize)
+        const count = await films.countDocuments()
+        const totalPage = Math.ceil(count / pageSize)
+
+        return res.status(200).json({
+            filmsAll,
+            totalPage,
+            count
+        })
+    } catch (error) {
+        return res.status(400).json({
+            message: error.message,
+        });
     }
 }

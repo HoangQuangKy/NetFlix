@@ -48,7 +48,7 @@ function KDramaCategory({ category, films }) {
             <p className='my-5 text-3xl font-bold z-0 absolute'>{category}</p>
             <Slider {...settings}>
                 {categoryFilms.map((film, index) => (
-                    <button key={index} className={`mx-1 h-[250px] w-[270px]  ${isHover === index ? 'z-20 h-[300px]' : ''}`}
+                    <button key={index} className={`mx-1 h-[300px] w-[270px]  ${isHover === index ? 'z-20 h-[300px]' : ''}`}
                         onMouseEnter={() => setIsHover(index)}
                         onMouseLeave={() => setIsHover(null)}>
                         <div>

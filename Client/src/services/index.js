@@ -23,3 +23,10 @@ export const createNewUser = (newUser) => {
 export const Login = (userLogin) => {
     return filmInstance.post("/user/login", userLogin)
 }
+export const getPagingFilms = (pageSize = 3, pageIndex = 1) => {
+    return filmInstance.get(`/film/getPagingFilms?pageSize=${pageSize}&pageIndex=${pageIndex}`)
+}
+
+export const getTitle = () => {
+    return filmInstance.get('/film/getTitle')
+}

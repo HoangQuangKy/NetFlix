@@ -37,10 +37,15 @@ function Login() {
             if (response.status === 200) {
                 const tokenData = response.data.data
                 const userData = response.data.username
-                console.log(userData);
+                if (userData === 'admin') {
+                    navigate('/admin')
+                }
+                else {
+                    navigate('/')
+                }
+
                 dispatch(setAccessToken({ accessToken: tokenData, username: userData }))
                 alert("Đăng nhập thành công")
-                navigate('/')
                 localStorage.setItem("accessToken", accessToken)
 
             }
