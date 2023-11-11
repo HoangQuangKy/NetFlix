@@ -5,9 +5,9 @@ const routerFilms = express.Router();
 
 routerFilms.post('/createFilms', createFilms)
 routerFilms.get('/getAllFilms', getAllFilms)
-routerFilms.put('/update', updateFilms)
+routerFilms.put('/:id', updateFilms)
 routerFilms.get('/category', getUniqueCategories)
 routerFilms.get('/getPagingFilms', getPagingFilms)
 routerFilms.get('/getTitle', getTitle)
-routerFilms.get('/getFilmById', getFilmById)
+routerFilms.get('/:id', getFilmById)
 export default routerFilms

@@ -3,13 +3,14 @@ import dotenv from 'dotenv'
 import mongoose from "mongoose"
 import router from "./routers/index.js"
 import cors from 'cors'
-
+import fileUpload from "express-fileupload";
 dotenv.config()
 
 const { port } = process.env
 
 const app = express()
 app.use(cors());
+app.use(fileUpload())
 app.use(express.json());
 
 

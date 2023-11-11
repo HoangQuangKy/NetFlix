@@ -30,3 +30,12 @@ export const getPagingFilms = (pageSize = 3, pageIndex = 1) => {
 export const getTitle = () => {
     return filmInstance.get('/film/getTitle')
 }
+export const updateFilms = (id, data) => {
+    return filmInstance.put(`/film/${id}`, data)
+}
+export const createNewFilms = (data) => {
+    return filmInstance.post('/film/createFilms', data)
+}
+export const getFilmById = (filmdId) => {
+    return filmInstance.get(`film/${filmdId}`)
+}

@@ -1,9 +1,10 @@
+import { query } from "express";
 import films from "../models/films.js";
-
+import uploadImage from '../cloundinary/index.js'
 export const createFilms = async (req, res) => {
     try {
         const filmName = req.body.filmName;
-        const img = req.body.img;
+        const img = req.files.img;
         const genres = req.body.genres;
         const episodes = req.body.episodes;
         const category = req.body.category;
@@ -11,9 +12,11 @@ export const createFilms = async (req, res) => {
         const actors = req.body.actors;
         const acceptAge = req.body.acceptAge;
 
+        const uploadFile = await uploadImage(img)
+
         const data = await films.create({
             filmName: filmName,
-            img: img,
+            img: uploadFile,
             genres: genres,
             episodes: episodes,
             category: category,
@@ -63,32 +66,43 @@ export const getFilmById = async (req, res) => {
 
 export const updateFilms = async (req, res) => {
     try {
-        const data = await films.updateMany({
-            decs: { $exists: false }
-        },
-            {
-                $set: {
-                    decs: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                    actors: ["Leesin", "Yasuo", "Zed"],
-                    acceptAge: 18
-                }
-            });
-        if (data) {
-            return res.status(200).json({
-                message: 'Success'
-            })
+        const id = req.params.id;
+        const filmName = req.body.filmName;
+        const img = req.files?.img;
+        const genres = req.body.genres;
+        const episodes = req.body.episodes;
+        const category = req.body.category;
+        const decs = req.body.decs;
+        const actors = req.body.actors;
+        const acceptAge = req.body.acceptAge
+
+        let dataUpdate = {
+            id,
+            filmName,
+            genres,
+            episodes,
+            category,
+            decs,
+            actors,
+            acceptAge
         }
-        if (!data) {
-            return res.status(200).json({
-                message: 'Không có bộ phim nào cần update'
-            })
+        if (img) {
+            const upload = await uploadImage(img)
+            dataUpdate = {
+                ...dataUpdate,
+                img: upload
+            }
         }
+        const film = await films.findOneAndUpdate({ _id: id }, dataUpdate, { new: true })
+
+        return res.status(200).json({ message: "Update san pham thanh cong", film })
     } catch (error) {
         return res.status(400).json({
             message: error.message,
         });
     }
 }
+
 export const getUniqueCategories = async (req, res) => {
     try {
         const uniqueCategories = await films.distinct('category')
