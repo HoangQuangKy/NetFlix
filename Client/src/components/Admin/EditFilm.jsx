@@ -16,7 +16,7 @@ import {
 const { TextArea } = Input;
 
 
-function CreateFilm() {
+function EditFilm() {
     useEffect(() => {
         getTitle()
             .then((response) => {
@@ -53,11 +53,10 @@ function CreateFilm() {
         reader.addEventListener('load', () => callback(reader.result));
         reader.readAsDataURL(img);
     };
-
+    console.log(params);
     const getFilm = async () => {
         try {
-            const film = await getFilmById(params.id)
-            console.log(film);
+            const film = await getFilmById(params._id);
             form.setFieldsValue("filmName", film.data.film.filmName);
             form.setFieldsValue("genres", film.data.film.genres);
             form.setFieldsValue("actors", film.data.film.actors);
@@ -65,11 +64,12 @@ function CreateFilm() {
             form.setFieldsValue("acceptAge", film.data.film.acceptAge);
             form.setFieldsValue("episodes", film.data.film.episodes);
             form.setFieldsValue("decs", film.data.film.decs);
-            setImageUrl(`${CLOUDINARY_URL}/${film.data.film?.img}`)
+            setImageUrl(`${CLOUDINARY_URL}/${film.data.film?.img}`);
+            console.log("Film data:", film.data.film);
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
-    }
+    };
     const handleChange = (info) => {
         const newFile = info.file.originFileObj
         console.log(info);
@@ -91,23 +91,14 @@ function CreateFilm() {
         formdata.append("episodes", values.episodes)
         formdata.append("decs", values.decs)
         formdata.append("img", file)
-        if (!params.id) {
-            try {
-                const result = await createNewFilms(formdata)
-                console.log('new', result);
-                alert('tạo thành công')
-            } catch (error) {
-                console.log(error)
-            }
-        } else {
-            try {
-                const result = await updateFilms(params.id, formdata)
 
-                alert('chỉnh sửa thành công')
+        try {
+            const result = await updateFilms(params._id, formdata)
 
-            } catch (error) {
-                console.log(error)
-            }
+            alert('chỉnh sửa thành công')
+
+        } catch (error) {
+            console.log(error)
         }
 
     };
@@ -122,11 +113,10 @@ function CreateFilm() {
     );
 
     useEffect(() => {
-        if (params.id) {
+        if (params._id) {
             getFilm()
         }
     }, [])
-
     const dispatch = useDispatch();
     const genres = useSelector((state) => state.films.genres);
     const actors = useSelector((state) => state.films.actors);
@@ -179,7 +169,7 @@ function CreateFilm() {
                 <Form.Item
                     label="Film Name"
                     name='filmName'>
-                    <Input onChange={(e) => { form.setFieldValue("name", e.target.value) }} />
+                    <Input onChange={(e) => { form.setFieldsValue("filmName", e.target.value) }} />
                 </Form.Item>
                 <Form.Item
                     label="Genres"
@@ -249,4 +239,4 @@ function CreateFilm() {
     )
 }
 
-export default CreateFilm
+export default EditFilm

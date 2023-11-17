@@ -66,7 +66,7 @@ export const getFilmById = async (req, res) => {
 
 export const updateFilms = async (req, res) => {
     try {
-        const id = req.params.id;
+        const id = req.params._id;
         const filmName = req.body.filmName;
         const img = req.files?.img;
         const genres = req.body.genres;

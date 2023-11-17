@@ -39,3 +39,11 @@ export const createNewFilms = (data) => {
 export const getFilmById = (filmdId) => {
     return filmInstance.get(`film/${filmdId}`)
 }
+
+export const getPagingUser = (pageSize = 3, pageIndex = 1) => {
+    return filmInstance.get(`/user/getPagingUser?pageSize=${pageSize}&pageIndex=${pageIndex}`)
+}
+
+export const updateUsers = (id, data) => {
+    return filmInstance.put(`/user/${id}`, data)
+}

@@ -4,11 +4,26 @@ import { getPagingFilms } from '../../services';
 import { Pagination } from 'antd';
 import { Button } from 'antd';
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 function MainData() {
+    const [filmEdit, setFilmEdit] = useState(null)
+    const navigate = useNavigate()
+
+    const handleEditClick = (record) => {
+        setFilmEdit(record);
+    };
+
+    useEffect(() => {
+        if (filmEdit) {
+            navigate(`/admin/editfilm/${filmEdit._id}`);
+        }
+    }, [filmEdit]);
+
     const [pageSize, setPageSize] = useState(3)
     const [pageIndex, setPageIndex] = useState(1)
     const [filmsPaging, setFilmsPaging] = useState([])
     const [count, setCount] = useState(0)
+
     const getPagingFilm = async () => {
         try {
             const result = await getPagingFilms(pageSize, pageIndex)
@@ -94,9 +109,9 @@ function MainData() {
         {
             title: 'Action',
             key: 'action',
-            render: () => (
+            render: (_, record) => (
                 <Space size="middle">
-                    <Button>Edit</Button>
+                    <Button onClick={() => handleEditClick(record)}>Edit</Button>
                     <Button danger>Delete</Button>
                 </Space>
             ),
@@ -113,7 +128,7 @@ function MainData() {
             <Table
                 dataSource={filmsPaging}
                 columns={columns}
-                pagination={false} />;
+                pagination={false} />
             <Pagination
                 className='pt-5'
                 current={pageIndex}

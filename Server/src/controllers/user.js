@@ -5,7 +5,7 @@ import user from '../models/user.js'
 export const createNewUser = async (req, res) => {
     try {
         const name = req.body.name;
-        const address = req.body.address;
+        // const address = req.body.address;
         const dateOfBirth = req.body.dateOfBirth;
         const username = req.body.username;
         const password = req.body.password;
@@ -103,3 +103,53 @@ export const authentication = async (req, res, next) => {
     }
 }
 
+export const getUserPaging = async (req, res) => {
+    try {
+        const pageSize = req.query.pageSize || 3
+        const pageIndex = req.query.pageIndex || 1;
+
+        const userAll = await user
+            .find()
+            .skip(pageSize * pageIndex - pageSize).limit(pageSize)
+        const count = await user.countDocuments()
+        const totalPage = Math.ceil(count / pageSize)
+
+        return res.status(200).json({
+            userAll,
+            totalPage,
+            count
+        })
+    } catch (error) {
+        return res.status(400).json({
+            message: error.message,
+        });
+    }
+}
+
+
+export const updateUser = async (req, res) => {
+    try {
+        const id = req.params._id;
+        const name = req.body.name;
+        const dateOfBirth = req.body.dateOfBirth;
+        const username = req.body.username;
+        const password = req.body.password;
+        const auth = req.body.auth;
+        const phonenumber = req.body.phonenumber
+        let dataUpdate = {
+            id,
+            name,
+            dateOfBirth,
+            username,
+            password,
+            auth,
+            phonenumber
+        }
+        const userUpdate = await user.findOneAndUpdate({ _id: id }, updateUser, { new: true })
+        return res.status(200).json({ message: "Update người dùng thành công", userUpdate })
+    } catch (error) {
+        return res.status(400).json({
+            message: error.message,
+        });
+    }
+}

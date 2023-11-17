@@ -9,7 +9,11 @@ dotenv.config()
 const { port } = process.env
 
 const app = express()
-app.use(cors());
+app.use(
+    cors({
+        origin: "*",
+    })
+);
 app.use(fileUpload())
 app.use(express.json());
 
