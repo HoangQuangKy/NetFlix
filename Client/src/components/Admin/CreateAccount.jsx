@@ -1,8 +1,7 @@
 import React from 'react'
-import { useEffect } from 'react';
 import { useDispatch } from 'react-redux'
-import { getTitle, getUniqueCategories, createNewUser } from '../../services';
-import { setTitle, setCategories } from '../../redux/slice/film.slice';
+import { createNewUser } from '../../services';
+
 import {
     Form,
     Input,
@@ -10,57 +9,17 @@ import {
     Button,
     DatePicker,
 } from 'antd';
-const { TextArea } = Input;
 
 
 function CreateAccount() {
-    useEffect(() => {
-        getTitle()
-            .then((response) => {
-                const genresData = response.data.data.genres
-                const actorData = response.data.data.actors
-                dispatch(setTitle({
-                    genres: genresData,
-                    actors: actorData
-                }))
-            })
-            .catch((error) => {
-                console.log("Lỗi khi gọi API getUniqueCategories:", error);
-            })
-    }, [])
-    useEffect(() => {
-        getUniqueCategories()
-            .then((response) => {
-                const categoriesData = response.data.message
-                dispatch(setCategories({ categories: categoriesData }))
-            })
-            .catch((error) => {
-                console.log("Lỗi khi gọi API getUniqueCategories:", error);
-            })
-    }, [])
 
     const [form] = Form.useForm()
     const auth = [
         { label: 'Admin', value: 'admin' },
         { label: 'Customer', value: 'customer' }
     ];
-    // const getFilm = async () => {
-    //     try {
-    //         const film = await getFilmById(params.id)
-    //         console.log(film);
-    //         form.setFieldsValue("filmName", film.data.film.filmName);
-    //         form.setFieldsValue("genres", film.data.film.genres);
-    //         form.setFieldsValue("actors", film.data.film.actors);
-    //         form.setFieldsValue("categories", film.data.film.categories);
-    //         form.setFieldsValue("acceptAge", film.data.film.acceptAge);
-    //         form.setFieldsValue("episodes", film.data.film.episodes);
-    //         form.setFieldsValue("decs", film.data.film.decs);
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
+
     const onFinish = async (values) => {
-        // const values = form.getFieldsValue();
         const formdata = new FormData();
         formdata.append("username", values.username)
         formdata.append("password", values.password)

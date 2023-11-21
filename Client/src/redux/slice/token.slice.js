@@ -9,7 +9,6 @@ export const tokenSlice = createSlice({
     initialState,
     reducers: {
         setAccessToken: (state, action) => {
-            console.log('action', action);
             state.accessToken = action.payload.accessToken;
             state.username = action.payload.username
         }

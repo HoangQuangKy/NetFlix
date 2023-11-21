@@ -56,7 +56,7 @@ export const Login = async (req, res) => {
         const passwordMatch = await bcrypt.compare(String(req.body.password), String(allUser.password));
 
         if (passwordMatch) {
-            const token = jwt.sign({ userId: allUser._id }, process.env.KEY, { expiresIn: '1m' });
+            const token = jwt.sign({ userId: allUser._id }, process.env.KEY, { expiresIn: '1y' });
 
             return res.status(200).json({
                 data: token,
@@ -76,32 +76,7 @@ export const Login = async (req, res) => {
     }
 };
 
-export const authentication = async (req, res, next) => {
-    const bearerToken = req.headers.authorization
-    if (!bearerToken) {
-        return res.status(401).json({
-            message: "Bạn chưa đăng nhập"
-        })
-    }
-    const token = bearerToken.split(" ")[1]
-    console.log(bearerToken);
-    try {
-        const checkToken = jwt.verify(token, process.env.KEY)
-        const userId = checkToken.id
-        const userLogged = await user.findById(userId)
-        if (!userLogged) {
-            return res.status(401).json({
-                message: "Bạn chưa đăng nhập"
-            })
-        }
-        console.log(checkToken);
-        req.user = user
-        req.userId = userId
-        next()
-    } catch (error) {
-        return res.status(401).json({ message: "Ban chua dang nhap" })
-    }
-}
+
 
 export const getUserPaging = async (req, res) => {
     try {
@@ -145,7 +120,7 @@ export const updateUser = async (req, res) => {
             auth,
             phonenumber
         }
-        const userUpdate = await user.findOneAndUpdate({ _id: id }, updateUser, { new: true })
+        const userUpdate = await user.findOneAndUpdate({ id: id }, dataUpdate, { new: true })
         return res.status(200).json({ message: "Update người dùng thành công", userUpdate })
     } catch (error) {
         return res.status(400).json({
@@ -153,3 +128,17 @@ export const updateUser = async (req, res) => {
         });
     }
 }
+export const findUser = async (req, res) => {
+    try {
+        const userid = req.params.id
+        const userfind = await user.findById(userid)
+        return res.status(200).json({
+            userfind
+        })
+    } catch (error) {
+        return res.status(400).json({
+            message: error.message,
+        });
+    }
+}
+

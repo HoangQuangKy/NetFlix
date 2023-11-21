@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Space, Table, Tag } from 'antd';
-import { getPagingFilms } from '../../services';
+import { deleteFilm, getPagingFilms } from '../../services';
 import { Pagination } from 'antd';
 import { Button } from 'antd';
 import { Link } from 'react-router-dom'
@@ -12,7 +12,15 @@ function MainData() {
     const handleEditClick = (record) => {
         setFilmEdit(record);
     };
-
+    const handleDeleteClick = async (id) => {
+        try {
+            const result = await deleteFilm(id)
+            alert(`${result.data.message}`)
+            getPagingFilm()
+        } catch (error) {
+            console.error('Error deleting film:', error);
+        }
+    }
     useEffect(() => {
         if (filmEdit) {
             navigate(`/admin/editfilm/${filmEdit._id}`);
@@ -112,7 +120,7 @@ function MainData() {
             render: (_, record) => (
                 <Space size="middle">
                     <Button onClick={() => handleEditClick(record)}>Edit</Button>
-                    <Button danger>Delete</Button>
+                    <Button danger onClick={() => handleDeleteClick(record._id)}>Delete</Button>
                 </Space>
             ),
         },

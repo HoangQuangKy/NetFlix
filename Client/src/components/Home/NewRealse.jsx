@@ -10,6 +10,9 @@ import dot from '../../../public/dot.png'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import trailer from '../../../public/trailer.mp4'
+import { Button, Modal } from 'antd';
+import play from '../../../public/play.png'
+
 import '../Home/video.css'
 
 
@@ -41,6 +44,15 @@ const settings = {
 };
 
 function KDramaCategory({ category, films }) {
+    const [openModalIndex, setOpenModalIndex] = useState(null);
+
+    const openModal = (filmIndex) => {
+        setOpenModalIndex(filmIndex);
+    };
+
+    const closeModal = () => {
+        setOpenModalIndex(null);
+    };
     const categoryFilms = films.filter(film => film.category.includes(category));
     const [isHover, setIsHover] = useState(null)
     return (
@@ -48,7 +60,7 @@ function KDramaCategory({ category, films }) {
             <p className='my-5 text-3xl font-bold z-0 absolute'>{category}</p>
             <Slider {...settings}>
                 {categoryFilms.map((film, index) => (
-                    <button key={index} className={`mx-1 h-[300px] w-[270px]  ${isHover === index ? 'z-20 h-[300px]' : ''}`}
+                    <button key={index} onClick={() => openModal(index)} className={`mx-1 h-[300px] w-[270px]  ${isHover === index ? 'z-20 h-[300px]' : ''}`}
                         onMouseEnter={() => setIsHover(index)}
                         onMouseLeave={() => setIsHover(null)}>
                         <div>
@@ -94,6 +106,37 @@ function KDramaCategory({ category, films }) {
                                 ))}
                             </button>
                         </div>
+                        {/* <Modal title="Basic Modal" open={openModalIndex === index} onOk={closeModal}
+                            onCancel={closeModal} className='h-full'>
+                            <img
+                                src={film.img}
+                            ></img>
+                            <p className=' absolute top-[200px] left-10 text-3xl font-semibold w-[486px] z-10'>{film.filmName}</p>
+                            <button className='bg-white absolute top-[250px] px-4 mx-2 text-black font-semibold text-md rounded-md py-1 mr-3 flex flex-row justify-around items-center'>
+                                <img src={play} alt="" width={25} height={25} className='mr-3' />
+                                Play
+                            </button>
+                            <div className='flex justify-between'>
+                                <div className='flex flex-col w-[250px]'>
+                                    <div className='flex text-center items-center mt-2'>
+                                        <p className='text-sm px-2 border bg-opacity-30 border-solid mr-2'>{film.acceptAge}+</p>
+                                        <button className=''>
+                                            {film.genres.join(',')}
+                                        </button>
+                                    </div>
+                                    <p className='text-sm mt-3'> {film.decs.length > 100 ? `${film.decs.slice(0, 100)}...` : film.decs}</p>
+                                    <hr></hr>
+                                    <p className='mt-2'>Episodes: {film.episodes}</p>
+                                </div>
+                                <div className='flex flex-col text-center items-center mt-2'>
+                                    <p className=''>Cast: {film.actors.join(', ')}</p>
+                                    <p className=''>
+                                        Category: {film.category.join(',')}
+                                    </p>
+                                </div>
+                            </div>
+
+                        </Modal> */}
                     </button>
                 ))}
             </Slider>

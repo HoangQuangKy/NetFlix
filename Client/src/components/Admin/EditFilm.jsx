@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { CLOUDINARY_URL } from '../../configs/index.js'
 import { useNavigate, useParams } from "react-router";
 import { useSelector, useDispatch } from 'react-redux'
-import { getTitle, getUniqueCategories, updateFilms, createNewFilms, getFilmById } from '../../services';
+import { getTitle, getUniqueCategories, updateFilms, getFilmById } from '../../services';
 import { setTitle, setCategories } from '../../redux/slice/film.slice';
 import {
     Form,
@@ -53,23 +53,29 @@ function EditFilm() {
         reader.addEventListener('load', () => callback(reader.result));
         reader.readAsDataURL(img);
     };
-    console.log(params);
     const getFilm = async () => {
         try {
             const film = await getFilmById(params._id);
-            form.setFieldsValue("filmName", film.data.film.filmName);
-            form.setFieldsValue("genres", film.data.film.genres);
-            form.setFieldsValue("actors", film.data.film.actors);
-            form.setFieldsValue("categories", film.data.film.categories);
-            form.setFieldsValue("acceptAge", film.data.film.acceptAge);
-            form.setFieldsValue("episodes", film.data.film.episodes);
-            form.setFieldsValue("decs", film.data.film.decs);
-            setImageUrl(`${CLOUDINARY_URL}/${film.data.film?.img}`);
-            console.log("Film data:", film.data.film);
+            const filmData = film.data.film;
+
+            form.setFieldsValue({
+                filmName: filmData.filmName,
+                genres: filmData.genres,
+                actors: filmData.actors,
+                categories: filmData.category,
+                acceptAge: filmData.acceptAge,
+                episodes: filmData.episodes,
+                decs: filmData.decs,
+            });
+
+            setImageUrl(`${CLOUDINARY_URL}/${filmData.img}`);
+            console.log("Film data:", filmData);
         } catch (error) {
             console.log(error);
         }
     };
+
+
     const handleChange = (info) => {
         const newFile = info.file.originFileObj
         console.log(info);
@@ -86,7 +92,7 @@ function EditFilm() {
         formdata.append("filmName", values.filmName)
         formdata.append("genres", values.genres)
         formdata.append("actors", values.actors)
-        formdata.append("categories", values.categories)
+        formdata.append("categories", values.category)
         formdata.append("acceptAge", values.acceptAge)
         formdata.append("episodes", values.episodes)
         formdata.append("decs", values.decs)
@@ -111,7 +117,6 @@ function EditFilm() {
             <div style={{ marginTop: 8 }}>Upload</div>
         </div>
     );
-
     useEffect(() => {
         if (params._id) {
             getFilm()
@@ -169,7 +174,7 @@ function EditFilm() {
                 <Form.Item
                     label="Film Name"
                     name='filmName'>
-                    <Input onChange={(e) => { form.setFieldsValue("filmName", e.target.value) }} />
+                    <Input />
                 </Form.Item>
                 <Form.Item
                     label="Genres"

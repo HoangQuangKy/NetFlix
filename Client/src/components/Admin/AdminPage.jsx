@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import { Menu } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import {
     UserOutlined,
     HomeOutlined,
@@ -12,7 +13,7 @@ import {
     SwitcherOutlined,
     LogoutOutlined
 } from '@ant-design/icons';
-import MainData from './MainData';
+import MainData from './ManageFilm';
 import CreateFilm from './CreateFilm';
 import EditFilm from './EditFilm';
 import CreateAccount from './CreateAccount';
@@ -32,7 +33,7 @@ const items = [
         children: [
             { key: '2', label: 'Thêm tài khoản', icon: <UserAddOutlined />, path: 'create_user' },
             { key: '4', label: 'Thay đổi thông tin tài khoản', icon: <UserSwitchOutlined />, path: 'update_user' },
-            { key: '5', label: 'Danh sách phim', icon: <ExclamationCircleOutlined />, path: 'manage_user' }
+            { key: '5', label: 'Danh sách tài khoản', icon: <ExclamationCircleOutlined />, path: 'manage_user' }
         ]
     },
     {
@@ -47,6 +48,11 @@ const items = [
 ];
 
 function AdminPage() {
+    const navigate = useNavigate()
+    const handleClickLogout = () => {
+        localStorage.clear("accessToken")
+        navigate('/login')
+    }
     return (
         <div className='w-full h-[100vh] flex flex-row bg-white'>
             <div className='w-[280px] h-[100vh] bg-black pt-5 flex flex-col pb-5 justify-between'>
@@ -74,7 +80,7 @@ function AdminPage() {
                     theme='dark'
                 >
                     {items1.map(item => (
-                        <Menu.Item key={item.key} icon={item.icon}>
+                        <Menu.Item key={item.key} icon={item.icon} onClick={handleClickLogout}>
                             {item.label}
                         </Menu.Item>
                     ))}

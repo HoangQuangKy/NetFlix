@@ -1,5 +1,4 @@
 import axios from "axios";
-import { jwtDecode } from 'jwt-decode'
 const KEY = 'M4T_KH4U'
 const filmInstance = axios.create({
     baseURL: "http://localhost:8000",
@@ -8,7 +7,16 @@ const categoriesInstance = axios.create({
     baseURL: "http://localhost:8000"
 })
 
-
+filmInstance.interceptors.request.use((config) => {
+    const accessToken = localStorage.getItem("accessToken")
+    if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`
+    }
+    return config
+})
+export const deleteFilm = (id) => {
+    return filmInstance.delete(`/film/${id}`)
+}
 export const getFilm = () => {
     return filmInstance.get("/film/getAllFilms")
 }
@@ -37,7 +45,7 @@ export const createNewFilms = (data) => {
     return filmInstance.post('/film/createFilms', data)
 }
 export const getFilmById = (filmdId) => {
-    return filmInstance.get(`film/${filmdId}`)
+    return filmInstance.get(`/film/${filmdId}`)
 }
 
 export const getPagingUser = (pageSize = 3, pageIndex = 1) => {
@@ -46,4 +54,7 @@ export const getPagingUser = (pageSize = 3, pageIndex = 1) => {
 
 export const updateUsers = (id, data) => {
     return filmInstance.put(`/user/${id}`, data)
+}
+export const getUserById = (userId) => {
+    return filmInstance.get(`user/${userId}`)
 }
