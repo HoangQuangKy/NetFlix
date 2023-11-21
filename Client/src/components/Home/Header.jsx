@@ -6,7 +6,7 @@ import NavBarHeader from './NavBarHeader'
 
 function Header() {
     return (
-        <div className='flex flex-row w-full h-8 justify-between items-center px-10 mt-5'>
+        <div className='flex flex-row w-full h-8 justify-between items-center px-10 mt-5 absolute top-[0px] z-50'>
             <div className='flex flex-row h-8 items-center'>
                 <img src={logo} alt="" width={100} height={100} />
                 <button className='mx-2 text-sm hover:text-slate-400'>Home</button>
